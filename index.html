@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Home</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/styles.min.css">
+
+</head>
+
+<body style="margin: 0px;padding: 0px;">
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" style="height: 80px;background-color: #545759;color: #ffffff;">
+            <div class="container-fluid"><a class="navbar-brand" href="./index.html"><i
+                        class="material-icons">restaurant</i>&nbsp;SistemaPos</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item" role="presentation"><a class="nav-link" style="color:#ffffff;" href="./index.html"><i class="fa fa-home"></i>&nbsp;Home</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" style="color:#ffffff;" href="./Ordenes.html"><i class="fa fa-edit"></i>&nbsp;Ordenes</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" style="color:#ffffff;" href="./menu.html"><i
+                                    class="fa fa-list-alt"></i>&nbsp;Menu</a></li>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" style="color: rgb(250,251,252);"><i
+                                    class="fa fa-cog"></i>&nbsp; Administracion&nbsp;</a>
+                            <div class="dropdown-menu" role="menu" style="background-color: rgb(127,155,255);"><a class="dropdown-item" role="presentation" href="./administrar_productos.html">&nbsp;<i class="fa fa-gears"></i>
+                                    &nbsp;Productos</a><a class="dropdown-item" role="presentation" href="./administrar_categorias.html">&nbsp;<i class="fa fa-gears"></i>&nbsp;
+                                    Categorias</a></div>
+                        </li>
+                        <li class="nav-item" role="presentation"></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" style="color:#ffffff;" href="#"><i
+                                    class="fa fa-info"></i>&nbsp; Acerca de</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="jumbotron jumbotron-fluid jumbotron-main">
+        <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+        <script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+        <div id="particles-js">
+            <canvas class="particles-js-canvas-el" width="1409" height="319" style="width: 100%; height: 100%;"></canvas>
+        </div>
+        <div class="container center-vertically-holder" style="margin-top:-20px;">
+            <div class="row center-vertically">
+                <div class="col-md-8 offset-sm-0 offset-md-2 text-center" style="margin-top:100px;margin-bottom:100px;">
+                    <h1>&nbsp;<strong>Bienvenido a tu sistema RestBar</strong><br><br></h1>
+                    <hr style="border-top:1px;color:rgba(255,255,255,0.9);width:60%;margin:0px;margin-top:-50px;margin-bottom:10px;margin-left:20%;">
+                    <p>Es un<strong>&nbsp;Sistema Punto de Venta</strong>&nbsp;diseñado para administrar, controlar y operar
+                        <strong>&nbsp;restaurantes.</strong>&nbsp;Un software que te ayudará a gestionar y hacer crecer tu negocio, brindando agilidad para tu operación y entregando un servicio de calidad para tus clientes.<br><br>Autor: Carlos Mauricio
+                        Cuellar Rodríguez</p>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section id="carousel">
+        <div class="carousel slide" data-ride="carousel" id="carousel-1">
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item">
+                    <div class="jumbotron pulse animated hero-nature carousel-hero">
+                        <h1 class="hero-title" style="color:black;font-size: 55px">Ordenes</h1>
+                        <p class="hero-subtitle" style="color:black; font-size: 20px;">
+                            <strong>Pagina de Ordenes, muestra las ordenes con todos sus datos, pudiendo hacer busquedas y filtrar para ver sólo las ordenes Activas, al dar doble clic en una orden se muestra un modal con los detalles de la misma (solo lectura), se muestran los botones de
+                            Nueva Orden, Agregar Productos, Cobrar orden. Eliminar orden (solo se pueden eliminar ordenes que No estan Cobradas o cerradas)</strong>
+                        </p>
+                        <p><a class="btn btn-primary hero-button plat" role="button" href="./Ordenes.html">Ir a Ordenes</a></p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="jumbotron pulse animated hero-photography carousel-hero">
+                        <h1 class="hero-title" style="color:black;font-size:55px;">Productos</h1>
+                        <p class="hero-subtitle" style="color:black; font-size: 25px;">
+                            <strong>Pagina de Administrar productos, permite ver los productos, filtrarlos por categoria, buscarlos por nombre y facilita las opciones de Agregar, Modificar y eliminar un producto</strong>
+                        </p>
+                        <p><a class="btn btn-primary hero-button plat" role="button" href="./administrar_productos.html">Ir a Productos</a></p>
+                    </div>
+                </div>
+                <div class="carousel-item active">
+                    <div class="jumbotron pulse animated hero-technology carousel-hero">
+                        <h1 class="hero-title" style="color: black; font-size:55px">Categorias</h1>
+                        <p class="hero-subtitle" style="color: black; font-size:25px">
+                            <strong> Pagina de Administrar categorias, permite agregar, modificar y eliminar una categoria </strong>
+                        </p>
+                        <p><a class="btn btn-primary hero-button plat" role="button" href="./administrar_categorias.html">Ir a Categorias</a></p>
+                    </div>
+                </div>
+            </div>
+            <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><i
+                        class="fa fa-chevron-left"></i><span class="sr-only">Previous</span></a>
+                <a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><i
+                        class="fa fa-chevron-right"></i><span class="sr-only">Next</span></a>
+            </div>
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-1" data-slide-to="0"></li>
+                <li data-target="#carousel-1" data-slide-to="1"></li>
+                <li data-target="#carousel-1" data-slide-to="2" class="active"></li>
+            </ol>
+        </div>
+    </section>
+    <div class="footer-dark">
+        <div style="text-align:center;">
+            <h2 class="divider-style" style="margin-top:0px;"><span style="background-color:rgb(40, 45, 50);"><a
+                        href="#"><i class="material-icons">restaurant</i></a>&nbsp;SistemaPos</span></h2>
+        </div>
+        <footer>
+            <div class="container">
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-md-6 item text" style="margin-bottom:0px;">
+                        <h3>SistemaPos</h3>
+                        <p>“<em>Cocinamos con amor para que comas con conciencia.</em>”<br><em>No hay amor más sincero
+                                que el amor a la comida</em>.</p>
+                    </div>
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>Acerca de&nbsp;</h3>
+                        <ul>
+                            <li><a href="#">El sistema</a></li>
+                            <li><a href="#">El autor</a></li>
+                            <li></li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-md-3 item">
+                        <h3>Servicios</h3>
+                        <ul>
+                            <!-- <li><a href="#">Monitoring</a></li>
+                            <li><a href="#">Development</a></li>
+                            <li><a href="#">Reporting</a></li> -->
+                        </ul>
+                    </div>
+                </div>
+                <div class="col item social" style="margin-top:15px;"><a href="https://www.linkedin.com/in/carlos-maurico-cuellar-rodriguez-504935191/"><i
+                            class="fa fa-linkedin-square"></i></a><a href="https://twitter.com/Carlos22cuellar"><i
+                            class="icon ion-social-twitter"></i></a>
+                    <a href="https://github.com/Carlos222Cuellar"><i class="icon ion-social-github"></i></a>
+                    <a href="https://www.facebook.com/cuellar.carlos222"><i
+                            class="icon ion-social-facebook-outline"></i></a>
+                </div>
+                <div style="text-align:center;margin-top:-40px;">
+                    <h2 class="divider-style"></h2>
+                </div>
+                <p class="copyright">Carlos Mauricio Cuellar Rodríguez © Todos los derechos reservados 2019</p>
+            </div>
+        </footer>
+    </div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+    <script src="assets/js/script.min.js"></script>
+</body>
+
+</html>

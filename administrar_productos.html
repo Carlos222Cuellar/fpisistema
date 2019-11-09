@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Administrar Productos</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons.min.css">
+    <link rel="stylesheet" href="assets/fonts/material-icons.min.css">
+    <link rel="stylesheet" href="assets/css/Animated-Scrolled-Down-Heading.css">
+    <link rel="stylesheet" href="assets/css/JLX-Fixed-Nav-on-Scroll.css">
+    <link rel="stylesheet" href="assets/css/Bold-BS4-Jumbotron-with-Particles-js.css">
+    <link rel="stylesheet" href="assets/css/Bold-BS4-Jumbotron-with-Particles-js-1.css">
+    <link rel="stylesheet" href="assets/css/Dark-Footer.css">
+    <link rel="stylesheet" href="assets/css/Dark-Footer-1.css">
+    <link rel="stylesheet" href="assets/css/Dark-Footer-2.css">
+    <link rel="stylesheet" href="assets/css/Dark-NavBar.css">
+    <link rel="stylesheet" href="assets/css/Dark-NavBar-1.css">
+    <link rel="stylesheet" href="assets/css/best-carousel-slide.css">
+    <link rel="stylesheet" href="assets/css/Data-Table.css">
+    <link rel="stylesheet" href="assets/css/Data-Table-1.css">
+    <link rel="stylesheet" href="assets/css/Google-Style-Text-Input.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/Table-with-search-1-1.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/Table-with-search-1.css">
+    <link rel="stylesheet" href="assets/css/Dark-NavBar-2.css">
+</head>
+
+<body style="margin: 0px;padding: 0px;background-color:#D3D3D3;">
+    <div id="app">
+
+        <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" style="height: 80px;background-color: #545759;color: #ffffff;">
+            <div class="container-fluid"><a class="navbar-brand" href="./index.html"><i
+                        class="material-icons">restaurant</i> SistemaPos</a><button data-toggle="collapse" data-target="#navcol-1" class="navbar-toggler"><span class="sr-only">Toggle navigation</span><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li role="presentation" class="nav-item"></li>
+
+                        <li role="presentation" class="nav-item"></li>
+                        <li class="nav-item dropdown"><a data-toggle="dropdown" aria-expanded="false" class="dropdown-toggle nav-link" href="#" style="color: rgb(250,251,252);"><i
+                                    class="fa fa-cog"></i>  Administracion </a>
+                            <div role="menu" class="dropdown-menu" style="background-color: rgb(127,155,255);"><a role="presentation" class="dropdown-item" href="./administrar_productos.html"><i
+                                        class="fa fa-gears"></i>  Productos</a><a role="presentation" class="dropdown-item" href="./administrar_categorias.html"><i
+                                        class="fa fa-gears"></i>  Categorias</a></div>
+                        </li>
+                        <li role="presentation" class="nav-item"></li>
+                        <li role="presentation" class="nav-item"></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container mt-4 table-responsive">
+            <div class="card border-info table-responsive">
+                <div class="card-header bg-info text-black table-responsive">
+                    Administrar Productos
+                </div>
+                <br>
+                <h6 style="margin: 0px 0px 0px 15px;"><b>Categorias:</b></h6>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item" href="#" v-on:click="categoriaSelected=Cate.idCategoria;" v-for="Cate in categorias"><a class="nav-link" href="#" v-on:click.prevent="categoriaSelected=Cate.idCategoria;">{{ Cate.nombreCategoria }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-body table-responsive ">
+
+                    <div>
+                        <div class="form-group pull-left">
+                            <a data-toggle="modal" data-target="#modal2" class="btn btn-primary">
+                                <i class="fa fa-plus-circle"></i> Nuevo Producto
+                            </a>
+                        </div>
+                        <div class="form-group pull-right"><input type="text" class="search form-control" placeholder="Buscar" /></div><span class="counter pull-right"></span>
+                        <table class="table table-hover table-bordered results">
+                            <thead>
+                                <tr>
+                                    <th>IdProducto</th>
+                                    <th>Nombre Producto</th>
+                                    <th>Precio</th>
+                                    <th>esPreparado</th>
+                                    <th>Categoria</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                <tr class="warning no-result">
+                                    <td colspan="5"><i class="fa fa-warning"></i> No result</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(prod, index) in productos" v-show="prod.idCategoria==categoriaSelected" v-on:click="productoSelected=index; productoseleccionado=prod.idProducto;">
+                                    <td>{{prod.idProducto}}</td>
+                                    <td>
+                                        <span v-if="formActualizar && idactualizar == index">
+                                            <!-- Formulario para actualizar -->
+                                            <input v-model="nombreactualizar" type="text" class="form-control">
+                                        </span>
+                                        <span v-else="">
+                                            <!-- Dato nombre -->
+                                            {{ prod.nombreProducto }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span v-if="formActualizar && idactualizar == index">
+                                            <!-- Formulario para actualizar -->
+                                            <input v-model="precioactualizar" type="text" class="form-control">
+                                        </span>
+                                        <span v-else="">
+                                            <!-- Dato nombre -->
+                                            {{ prod.precio }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-motorcycle" v-show="prod.esPreparado==0"></i>
+                                        <i class="fas fa-hamburger" v-show="prod.esPreparado==1"></i>
+                                    </td>
+                                    <td>{{ nombreCategoria(prod.idCategoria) }}</td>
+                                    <td>
+                                        <!-- Botón para guardar la información actualizada -->
+                                        <span v-if="formActualizar && idactualizar == index">
+                                            <button v-on:click="guardarActualizacion(index+1);"
+                                                class="btn btn-success">Guardar</button>
+                                        </span>
+                                        <span v-else="">
+                                            <!-- Botón para mostrar el formulario de actualizar -->
+                                            <button v-on:click="verFormActualizar(index)"
+                                                class="btn btn-warning">Actualizar</button>
+                                            <!-- Botón para borrar -->
+                                            <button data-toggle="modal" data-target="#modal3"
+                                                class="btn btn-danger">Borrar</button>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- <pre>{{ $data }}</pre> -->
+
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modal3">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirmar Eliminar Producto</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <div class="modal-body" id="">
+                        <p>Esta Seguro que desea eliminar este Producto</p>
+                    </div>
+                    <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cancelar</button><button class="btn btn-primary" type="button" v-on:click.prevent="borrarProducto()" data-dismiss="modal">Aceptar</button></div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="modal fade" role="dialog" tabindex="-1" id="modal2">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Nuevo Producto</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body" id="">
+                        <div class="container">
+                            <div class="card border-info">
+                                <div class="card-header bg-info text-black-50">
+                                    Nuevo Producto
+                                </div>
+                                <div class="card-body">
+
+                                    <div class="group"><input v-model="nombre" type="text" required=""><span class="highlight"></span><span class="bar"></span><label>Nombre
+                                            Producto</label></div>
+                                    <div class="group"><input v-model="precio" type="number" required="" min="0.1"><span class="highlight"></span><span class="bar"></span><label>Precio</label>
+                                    </div>
+                                    <div class="group"><input v-model="esPreparado" type="number" required="" min="0" max="1"><span class="highlight"></span><span class="bar"></span><label>esPreparado</label>
+                                    </div>
+
+                                    <select class="form-control">
+                                        <option v-model="catego" v-for="Cate in categorias" value="{{Cate.idCategoria}}">{{Cate.nombreCategoria}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cancelar</button><button class="btn btn-primary" type="button" data-dismiss="modal">Guardar</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/script.min.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
+    <script src="assets/js/Animated-Scrolled-Down-Heading.js"></script>
+    <script src="assets/js/Bold-BS4-Jumbotron-with-Particles-js.js"></script>
+    <script src="assets/js/JLX-Fixed-Nav-on-Scroll.js"></script>
+    <script src="assets/js/Table-with-search-1.js"></script>
+    <script src="vue/vue.js"></script>
+    <script src="axios/axios.min.js"></script>
+    <script src="archivos_vue/productos.js"></script>
+</body>
+
+</html>
