@@ -28,36 +28,66 @@
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/css/Table-with-search-1.css">
     <link rel="stylesheet" href="assets/css/Dark-NavBar-2.css">
+
+
+    <link rel="stylesheet" href="assets1/css/scrollSpyModal.css">
+
+
+
+
+    <link rel="stylesheet" href="assets2/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets2/fonts/fontawesome-all.min.css">
+    <link rel="stylesheet" href="assets2/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="assets2/fonts/fontawesome5-overrides.min.css">
+    <link rel="stylesheet" href="assets2/css/Data-Table-1.css">
+    <link rel="stylesheet" href="assets2/css/Data-Table.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="assets2/css/styles.css">
+
 </head>
 
 <body style="margin: 0px;padding: 0px;background-color:#D3D3D3;">
-    <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" style="height: 80px;background-color: #545759;color: #ffffff;">
-        <div class="container-fluid"><a class="navbar-brand" href="./index.html"><i class="material-icons">restaurant</i>&nbsp;SistemaPos</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
-                <ul class="nav navbar-nav ml-auto">
-                    <li class="nav-item" role="presentation"></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" style="color:#ffffff;" href="#" data-toggle="modal" data-target="#modal1"><i class="fa fa-plus-circle"></i>&nbsp; Nueva Orden</a></li>
-                    <li class="nav-item" role="presentation"></li>
-                    <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" style="color: rgb(250,251,252);"><i class="fa fa-cog"></i>&nbsp; Administracion&nbsp;</a>
-                        <div class="dropdown-menu" role="menu" style="background-color: rgb(127,155,255);"><a class="dropdown-item" role="presentation" href="./administrar_productos.html">&nbsp;<i class="fa fa-gears"></i> &nbsp;Productos</a><a class="dropdown-item" role="presentation" href="./administrar_categorias.html">&nbsp;<i class="fa fa-gears"></i>&nbsp; Categorias</a></div>
-                    </li>
-                    <li class="nav-item" role="presentation"></li>
-                    <li class="nav-item" role="presentation"></li>
-                </ul>
+    <div>
+        <nav class="navbar navbar-light navbar-expand-md sticky-top navigation-clean-button" style="height: 80px;background-color: #545759;color: #ffffff;">
+            <div class="container-fluid"><a class="navbar-brand" href="./index.html"><i
+                        class="material-icons">restaurant</i>&nbsp;SistemaPos</a><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span
+                        class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item" role="presentation"></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" style="color:#ffffff;" href="#" data-toggle="modal" data-target="#nueva"><i class="fa fa-plus-circle"></i>&nbsp; Nueva
+                                Orden</a></li>
+                        <li class="nav-item" role="presentation"></li>
+                        <li class="nav-item dropdown"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href="#" style="color: rgb(250,251,252);"><i
+                                    class="fa fa-cog"></i>&nbsp; Administracion&nbsp;</a>
+                            <div class="dropdown-menu" role="menu" style="background-color: rgb(127,155,255);"><a class="dropdown-item" role="presentation" href="./administrar_productos.html">&nbsp;<i class="fa fa-gears"></i>
+                                    &nbsp;Productos</a><a class="dropdown-item" role="presentation" href="./administrar_categorias.html">&nbsp;<i class="fa fa-gears"></i>&nbsp;
+                                    Categorias</a></div>
+                        </li>
+                        <li class="nav-item" role="presentation"></li>
+                        <li class="nav-item" role="presentation"></li>
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav><br>
+        </nav>
+    </div>
 
-    <div class="container mt-4 table-responsive">
+    <div class="container-fluid mt-4 table-responsive" id="vueApp">
         <div class="card border-info table-responsive">
             <div class="card-header bg-info text-black table-responsive">
                 Ordenes
             </div>
 
             <div class="card-body table-responsive ">
+                <div class="row">
+                    <div class="col">
+                        <div class="alert alert-success collapse" role="alert" id="miAlerta">
+                            <span><strong>{{ alerta.titulo }} :</strong>&nbsp;{{ alerta.mensaje }}.</span><i class="fa fa-close close" v-on:click="cerrarAlerta();"></i></div>
+                    </div>
+                </div>
                 <div class="form-group pull-right">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1" v-bind:value="true" v-model="estado">
                         <label class="custom-control-label" for="customSwitch1">Ver solo Ordenes Activas</label>
                     </div>
                     <input type="text" class="search form-control" placeholder="Buscar">
@@ -67,9 +97,9 @@
                     <thead>
                         <tr>
                             <th>Orden</th>
-                            <th class="">Cliente</th>
-                            <th class="">Mesa</th>
-                            <th class="">Mesero</th>
+                            <th>Cliente</th>
+                            <th>Mesa</th>
+                            <th>Mesero</th>
                             <th>Total</th>
                             <th>Acciones</th>
                         </tr>
@@ -78,17 +108,38 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Juan Perez</td>
-                            <td>2</td>
-                            <td>Luis Mendez</td>
-                            <td>$24.00</td>
+                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estado==false">
+                            <td>{{orden.idOrden}}</td>
+                            <td>{{orden.cliente}}</td>
+                            <td>{{orden.mesa}}</td>
+                            <td>{{orden.mesero}}</td>
+                            <td>${{orden.total}}</td>
                             <td>
-                                <button class="btn btn-outline-success" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal2"><i class="fa fa-pencil" style="font-size: 15px;"></i></button>
-                                <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button"><i class="fa fa-trash" style="font-size: 15px;"></i></button>
-                                <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" onclick="location.href='./pcobrarorden.html'"><i class="fa fa-money" style="font-size: 15px;"></i></button>
-                                <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal3"><i class="fa fa-info" style="font-size: 15px;"></i></button>
+                                <button class="btn btn-outline-success" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal2"><i class="fa fa-pencil"
+                                        style="font-size: 15px;"></i></button>
+                                <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button"><i
+                                        class="fa fa-trash" style="font-size: 15px;"></i></button>
+                                <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" v-on:click="mostrarModificar(ordenSelected);"><i class="fa fa-money"
+                                        style="font-size: 15px;"></i></button>
+                                <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal3"><i class="fa fa-info"
+                                        style="font-size: 15px;"></i></button>
+                            </td>
+                        </tr>
+                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estado==true,orden.estado=='A'">
+                            <td>{{orden.idOrden}}</td>
+                            <td>{{orden.cliente}}</td>
+                            <td>{{orden.mesa}}</td>
+                            <td>{{orden.mesero}}</td>
+                            <td>${{orden.total}}</td>
+                            <td>
+                                <button class="btn btn-outline-success" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal2"><i class="fa fa-pencil"
+                                            style="font-size: 15px;"></i></button>
+                                <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button"><i
+                                            class="fa fa-trash" style="font-size: 15px;"></i></button>
+                                <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" v-on:click="mostrarModificar(ordenSelected);"><i class="fa fa-money"
+                                            style="font-size: 15px;"></i></button>
+                                <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal3"><i class="fa fa-info"
+                                            style="font-size: 15px;"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -96,231 +147,290 @@
                 <div></div>
             </div>
         </div>
-    </div>
-    <div class="top"></div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="modal1">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Nueva Orden</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                <div class="modal-body">
-                    <div class="card">
-                        <div class="card-header">
-                            <ul class="nav nav-tabs card-header-tabs" role="tablist">
-                                <li class="nav-item"><a class="nav-link active" id="item-1-1-tab" data-toggle="tab" role="tab" aria-controls="item-1-1" aria-selected="true" href="#item-1-1">Paso 1</a></li>
-                                <li class="nav-item"><a class="nav-link" id="item-1-2-tab" data-toggle="tab" role="tab" aria-controls="item-1-2" aria-selected="false" href="#item-1-2">Paso 2</a></li>
-                                <li class="nav-item"><a class="nav-link" id="item-1-3-tab" data-toggle="tab" role="tab" aria-controls="item-1-3" aria-selected="false" href="#item-1-3">Paso 3</a></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <div id="nav-tabContent" class="tab-content">
-                                <div id="item-1-1" class="tab-pane fade show active" role="tabpanel" aria-labelledby="item-1-1-tab">
-                                    <h6>Datos generales de la orden</h6>
-                                    <hr>
-                                    <div class="group"><input type="text" required /><span class="highlight"></span><span class="bar"></span><label>Cliente</label></div>
-                                    <div class="group"><input type="text" required /><span class="highlight"></span><span class="bar"></span><label>Mesa</label></div>
-                                    <div class="group"><input type="text" required /><span class="highlight"></span><span class="bar"></span><label>Mesero</label></div>
-                                    <textarea placeholder="Observacion" rows="1" cols="40"></textarea>
-                                </div>
 
-                                <div id="item-1-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-2-tab">
-                                    <h6>Agregar productos</h6>
-                                    <div class="col-md-12">
-                                        <a class="btn btn-outline-primary">Entradas</a>
-                                        <a class="btn btn-outline-primary">Platos</a>
-                                        <a class="btn btn-outline-primary">Postres</a>
+        <div class="modal fade" role="dialog" tabindex="-1" id="nueva">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <div class="modal-body">
+                        <nav class="navbar navbar-light navbar-expand-md" id="menuNuevaOrden">
+                            <div class="container-fluid"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-2"><span class="sr-only">Toggle navigation</span><span
+                                    class="navbar-toggler-icon"></span></button>
+                                <div class="collapse navbar-collapse" id="navcol-2">
+                                    <ul class="nav navbar-nav">
+                                        <li class="nav-item" role="presentation"><a class="nav-link" href="#paso1">Paso
+                                            1</a></li>
+                                        <li class="nav-item" role="presentation"><a class="nav-link" href="#paso2">Paso
+                                            2</a></li>
+                                        <li class="nav-item" role="presentation"><a class="nav-link" href="#paso3">Paso
+                                            3</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                        <div class="container-fluid text-center">
+                            <div id="modalSpy" class="mt-4 text-center p-4" data-spy="scroll" data-target="menuNuevaOrden" data-offset="0">
+                                <form id="paso1">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Cliente:</span></div><input class="form-control" type="text" v-model="nuevaorden.cliente">
+                                        <div class="input-group-append"></div>
                                     </div>
-                                    <hr>
-                                    <table id="example" class="table table-striped  table-hover" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Productos</th>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Mesa:</span></div><input class="form-control" type="text" v-model="nuevaorden.mesa">
+                                        <div class="input-group-append"></div>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Mesero:</span></div><input class="form-control" type="text" v-model="nuevaorden.mesero">
+                                        <div class="input-group-append"></div>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Observacion:</span></div><input class="form-control" type="text" v-model="nuevaorden.observacion">
+                                        <div class="input-group-append"></div>
+                                    </div>
+                                </form>
+                                <div id="paso2" class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <ul class="nav nav-tabs">
+                                                <li class="nav-item" href="#" v-on:click.prevent="categoriaSelected=Cate.idCategoria;" v-for="Cate in categorias">
+                                                    <a class="nav-link" href="#" v-on:click="categoriaSelected=Cate.idCategoria;" v-bind:class="{ 'font-weight-bold': categoriaSelected==Cate.idCategoria,'text-dark': categoriaSelected==Cate.idCategoria }">{{ Cate.nombreCategoria }}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-responsive mt-5">
+                                        <table class="table" id="tablaprodutos">
+                                            <caption></caption>
+                                            <thead>
+                                                <th>Producto</th>
                                                 <th>Cantidad</th>
+                                                <th>precio</th>
+                                                <th>agregar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="list-group-item-action" v-for="(elProd,index) in productos " v-show="elProd.idCategoria==categoriaSelected" v-on:click="productoSelected=index" v-bind:class="{'font-weight-bold':productoSelected==index}">
+                                                    <td id="tgf">{{ elProd.nombreProducto}}</td>
+                                                    <td id="texto" align="center"><input type="number" id="cantidad1" style="width:50px;height:15px" placeholder="1" min="1" max="20" v-model="cantidadtabla"></td>
+                                                    <td>$ {{ elProd.precio }}</td>
+                                                    <td><a href="#" v-on:click.prevent="capturardatos(productoSelected);" id="btn"><i class="fa fa-edit"></i></a></td>
+                                                </tr>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Boquitas</td>
-                                                <td>
-                                                    <input type="number" min="1" class="form-control text-center" style="width:70px;height:25px">
-
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <hr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <div id="item-1-3" class="tab-pane fade" role="tabpanel" aria-labelledby="item-1-3-tab">
-                                    <h6>Resumen de Orden</h6>
-                                    <label style="margin: 105px 0px 10px 0px;">Mesa  </label>
-                                    <input placeholder="2" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
-                                    <label style="margin: 161px 0px 10px 0px;">Mesero  </label>
-                                    <input placeholder="miguel luis" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
-                                    <label style="margin: 220px 0px 10px 0px;">Cliente  </label>
-                                    <input placeholder="jose perez" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
-                                    <hr>
-                                    <table id="example" class="table table-striped  table-hover" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Cantidad</th>
-                                                <th>Productos</th>
-                                                <th>p/u</th>
-                                                <th>sub-total</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Boquitas</td>
-                                                <td>$0.75</td>
-                                                <td>$0.75</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <label style="margin: 400px 0px 10px 290px;">Total  </label>
-                                    <input type="text" style="width:100px;height:25px; margin: 10px 0px 10px 325px;" disabled="">
-                                    <hr>
+                                <div id="paso3">
+                                    <form><span>Mesa:{{nuevaorden.mesa}}  </span>
+                                        <span>cliente:{{nuevaorden.cliente}} </span>
+                                        <span> Mesero: {{nuevaorden.mesero}} </span>
+                                    </form>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <caption>Resumen</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th>Cantidad</th>
+                                                    <th>Producto</th>
+                                                    <th>P/u</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(detalle,index) in productosxdetalle">
+                                                    <td>{{cantidadxtabla[index].cantidad}}</td>
+                                                    <td>{{detalle.nombreProducto}}</td>
+                                                    <td>${{detalle.precio}}</td>
+                                                    <td>${{cantidadxtabla[index].cantidad*detalle.precio}}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3"></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary" v-on:click="agregarnuevaorden();" data-dismiss="modal"> Agregar Orden</button>
+                                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal"> Cancelar Orden</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cobrar</button><button class="btn btn-primary" type="button">Guardar</button></div>
+                </div>
+
+            </div>
+            <div class="modal fade" role="dialog" tabindex="-1" id="cobrar">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Cobrar Orden</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                        <div class="modal-body">
+                            <p>Total: $10</p>
+                            <div class="group">
+                                <input type="text" required>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label>Efectivo</label>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cerrar</button><button class="btn btn-primary" id="idBoton1" type="button" data-dismiss="modal">Guardar</button></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="modal2">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Agregar Producto a Orden</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                <div class="modal-body">
-                    <div class="card">
-                        <div class="card-header">
-                            <ul class="nav nav-tabs card-header-tabs" role="tablist">
-                                <li class="nav-item"><a class="nav-link active" id="item-2-1-tab" data-toggle="tab" role="tab" aria-controls="item-2-1" aria-selected="true" href="#item-2-1">Paso 1</a></li>
-                                <li class="nav-item"><a class="nav-link" id="item-2-2-tab" data-toggle="tab" role="tab" aria-controls="item-2-2" aria-selected="false" href="#item-2-2">Paso 2</a></li>
-                            </ul>
-                        </div>
-                        <div class="card-body">
-                            <div id="nav-tabContent" class="tab-content">
-                                <div class="tab-pane fade show active" id="item-2-1" class="tab-pane fade" role="tabpanel" aria-labelledby="item-2-1-tab">
-                                    <h6>Agregar productos</h6>
-                                    <div class="col-md-12">
-                                        <a class="btn btn-outline-primary">Entradas</a>
-                                        <a class="btn btn-outline-primary">Platos</a>
-                                        <a class="btn btn-outline-primary">Postres</a>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modal2">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Agregar Producto a Orden</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <div class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active" id="item-2-1-tab" data-toggle="tab" role="tab" aria-controls="item-2-1" aria-selected="true" href="#item-2-1">Paso
+                                        1</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="item-2-2-tab" data-toggle="tab" role="tab" aria-controls="item-2-2" aria-selected="false" href="#item-2-2">Paso 2</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div id="nav-tabContent" class="tab-content">
+                                    <div class="tab-pane fade show active" id="item-2-1" class="tab-pane fade" role="tabpanel" aria-labelledby="item-2-1-tab">
+                                        <h6>Agregar productos</h6>
+                                        <div class="col-md-12">
+                                            <a class="btn btn-outline-primary">Entradas</a>
+                                            <a class="btn btn-outline-primary">Platos</a>
+                                            <a class="btn btn-outline-primary">Postres</a>
+                                        </div>
+                                        <hr>
+                                        <table id="example" class="table table-striped  table-hover" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Productos</th>
+                                                    <th>Acciones</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Boquitas</td>
+                                                    <td>
+                                                        <a class="btn btn-outline-danger"><i class="fa fa-minus"></i></a>
+                                                        <input type="number" min="1" class="form-control text-center" style="width:70px;height:25px">
+                                                        <a class="btn btn-outline-danger"><i class="fa fa-plus"></i></a>
+
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr>
                                     </div>
-                                    <hr>
-                                    <table id="example" class="table table-striped  table-hover" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Productos</th>
-                                                <th>Acciones</th>
+                                    <div id="item-2-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-2-2-tab">
+                                        <h6>Resumen de Orden</h6>
+                                        <label style="margin: 105px 0px 10px 0px;">Mesa </label>
+                                        <input placeholder="2" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
+                                        <label style="margin: 161px 0px 10px 0px;">Mesero </label>
+                                        <input placeholder="miguel luis" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
+                                        <label style="margin: 220px 0px 10px 0px;">Cliente </label>
+                                        <input placeholder="jose perez" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
+                                        <hr>
+                                        <table id="example" class="table table-striped  table-hover" width="100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Cantidad</th>
+                                                    <th>Productos</th>
+                                                    <th>p/u</th>
+                                                    <th>sub-total</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Boquitas</td>
-                                                <td>
-                                                <a class="btn btn-outline-danger"><i class="fa fa-minus"></i></a>
-                                                    <input type="number" min="1" class="form-control text-center" style="width:70px;height:25px">
-                                                     <a class="btn btn-outline-danger"><i class="fa fa-plus"></i></a>
-
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <hr>
-                                </div>
-                                <div id="item-2-2" class="tab-pane fade" role="tabpanel" aria-labelledby="item-2-2-tab">
-                                    <h6>Resumen de Orden</h6>
-                                    <label style="margin: 105px 0px 10px 0px;">Mesa  </label>
-                                    <input placeholder="2" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
-                                    <label style="margin: 161px 0px 10px 0px;">Mesero  </label>
-                                    <input placeholder="miguel luis" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
-                                    <label style="margin: 220px 0px 10px 0px;">Cliente  </label>
-                                    <input placeholder="jose perez" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
-                                    <hr>
-                                    <table id="example" class="table table-striped  table-hover" width="100%">
-                                        <thead>
-                                            <tr>
-                                                <th>Cantidad</th>
-                                                <th>Productos</th>
-                                                <th>p/u</th>
-                                                <th>sub-total</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Boquitas</td>
-                                                <td>$0.75</td>
-                                                <td>$0.75</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                   <!-- <label style="margin: 400px 0px 10px 290px;">Total  </label>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Boquitas</td>
+                                                    <td>$0.75</td>
+                                                    <td>$0.75</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <!-- <label style="margin: 400px 0px 10px 290px;">Total  </label>
                                     <input type="text" style="width:100px;height:25px; margin: 10px 0px 10px 325px;" disabled="" placeholder="$0.75"> -->
-                                    <hr>
+                                        <hr>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cancelar</button><button class="btn btn-primary" type="button">Guardar</button></div>
                     </div>
-                    <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cancelar</button><button class="btn btn-primary" type="button">Guardar</button></div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="modal3">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Detalle Orden Orden</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
-                <div class="modal-body">
-                    <div class="container mt-3">
+        <div class="modal fade" role="dialog" tabindex="-1" id="modal3">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalle Orden Orden</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container mt-3">
 
-                        <h6>Resumen de Orden</h6>
-                        <label style="margin: 60px 0px 10px 0px;">Mesa:  </label>
-                        <input placeholder="2" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
-                        <label style="margin: 116px 0px 10px 0px;">Mesero:  </label>
-                        <input placeholder="miguel luis" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
-                        <label style="margin: 175px 0px 10px 0px;">Cliente:  </label>
-                        <input placeholder="jose perez" disabled="" type="text" style="margin: 10px 0px 10px 50px;">
-                        <hr>
-                        <table id="example" class="table table-striped  table-hover" width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Cantidad</th>
-                                    <th>Productos</th>
-                                    <th>p/u</th>
-                                    <th>sub-total</th>
+                            <h6>Resumen de Orden</h6>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Cliente:</span></div><input class="form-control" type="text" v-model="clientecobrar">
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Mesa:</span></div><input class="form-control" type="text" v-model="mesacobrar">
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Mesero:</span></div><input class="form-control" type="text" v-model="meserocobrar">
+                                <div class="input-group-append"></div>
+                            </div>
+                            <table id="example" class="table table-striped  table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Productos</th>
+                                        <th>p/u</th>
+                                        <th>sub-total</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Boquitas</td>
-                                    <td>$0.75</td>
-                                    <td>$0.75</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <label style="margin: 355px 0px 10px 290px;">Total:  </label>
-                        <input type="text" style="width:100px;height:25px; margin: 10px 0px 10px 325px;" disabled="" placeholder="$0.75">
-                        <hr>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="cobrar in detalleordencobrar">
+                                        <td>{{cobrar.cantidad}}</td>
+                                        <td>{{nombreProducto(cobrar.idProducto)}}</td>
+                                        <td>${{cobrar.precioUnitario}}</td>
+                                        <td>${{cobrar.cantidad*cobrar.precioUnitario}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span style="width: 340px;" class="input-group-text">Total:</span></div><input class="form-control" type="text" disabled="" v-model="totalcobrar">
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span style="width: 340px;" class="input-group-text">efectivo:</span></div><input v-on:keyup.enter="calcularefectivo();" class="form-control" type="text" v-model="efectivo">
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span style="width: 340px;" class="input-group-text">Cambio:</span></div><span>{{calcularefectivo()}}</span>
+                                <div class="input-group-append"></div>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Salir</button><button class="btn btn-light" type="button" data-dismiss="modal" v-on:click="cobrar(ordenSelected);">cobrar</button>
+                        </div>
 
                     </div>
-                    <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Salir</button></div>
                 </div>
             </div>
         </div>
@@ -333,6 +443,14 @@
     <script src="assets/js/Bold-BS4-Jumbotron-with-Particles-js.js"></script>
     <script src="assets/js/JLX-Fixed-Nav-on-Scroll.js"></script>
     <script src="assets/js/Table-with-search-1.js"></script>
+    <script src="assets1/js/jquery.min.js"></script>
+    <script src="assets1/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets1/js/alert.js"></script>
+    <script src="assets1/js/cargarTabla.js"></script>
+    <script src="assets1/js/filtroTabla.js"></script>
+    <script src="vue/vue.js"></script>
+    <script src="axios/axios.min.js"></script>
+    <script src="archivos_vue/administrar_ordenes.js"></script>
 </body>
 
 </html>
