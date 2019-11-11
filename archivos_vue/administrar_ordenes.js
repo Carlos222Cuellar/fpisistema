@@ -53,11 +53,31 @@
          },
          //se almacenan todas los odenes que estan en la base de datos
          Ordenes: [],
+         orderByCampo: "",
+         orderByAsc: 1,
+         textoBusqueda: "",
      },
 
 
 
      methods: {
+         buscar: function(x) {
+
+             if (this.textoBusqueda == "")
+                 return true;
+
+             var cad = this.Ordenes[x].total +
+                 this.Ordenes[x].mesero + this.Ordenes[x].mesa + this.Ordenes[x].cliente + this.Ordenes[x].idOrden;
+             cad = cad.toUpperCase();
+
+             if (cad.indexOf(this.textoBusqueda.toUpperCase()) >= 0)
+                 return true;
+             else
+                 return false;
+
+
+
+         },
          fechahoy: function() {
              var f = new Date();
              (f.getDate() + "-" + (f.getMonth() + 1) + "-" + f.getFullYear());
@@ -139,7 +159,27 @@
          },
 
 
+         mostrarDetalle: function(idorden) {
 
+             $('#modaldetalle').modal('show');
+             console.log(idorden);
+             this.mesacobrar = this.Ordenes[idorden].mesa;
+             this.meserocobrar = this.Ordenes[idorden].mesero;
+             this.clientecobrar = this.Ordenes[idorden].cliente;
+             this.totalcobrar = this.Ordenes[idorden].total;
+
+             axios.get('http://localhost:3000/api/DetalleOrdens?filter=%7B%22where%22%3A%7B%22idOrden%22%3A%22' + this.Ordenes[idorden].idOrden + '%22%7D%7D')
+                 .then(function(response) {
+
+                     vueApp.detalleordencobrar = response.data;
+
+
+                 })
+
+
+
+
+         },
          mostrarModificar: function(idorden) {
              if (this.Ordenes[this.ordenSelected].estado === "A") {
                  $('#modal3').modal('show');
@@ -192,13 +232,71 @@
 
          },
 
-         agregar: function() {
-             $('#agregarproducto').modal('show');
+         agregar: function(idorden) {
+             $('#AgregarProducto').modal('show');
 
          },
 
          nuevaorden1: function() {
              $('#modaliniciarorden').modal('show');
+
+         },
+         agregarproductos(idorden) {
+             //  for (var i = 0; i < this.cantidadxtabla.length; i++) {
+
+             //      this.Ordenes[idorden].total = this.Ordenes.total + (this.cantidadxtabla[i].cantidad * this.productosxdetalle[i].precio);
+
+             //  }
+             axios.get('http://localhost:3000/api/DetalleOrdens?filter=%7B%22where%22%3A%7B%22idOrden%22%3A%22' + this.Ordenes[idorden].idOrden + '%22%7D%7D')
+                 .then(function(response) {
+
+                     vueApp.detalleordencobrar = response.data;
+
+
+                 })
+             for (var i = 0; i < this.productosxdetalle.length; i++) {
+                 //  if (this.detalleordencobrar[2].idProducto === this.productosxdetalle[i].idProducto) {
+                 //      nuevaCantidad = {
+                 //          "cantidad": this.cantidadxtabla[i].cantidad + this.detalleordencobrar[i].cantidad
+                 //      }
+                 //      axios.post('http://localhost:3000/api/DetalleOrdens/update?where=%7B%22and%22%3A%5B%7B%22idOrden%22%3A%22' + this.Ordenes[idorden].idOrden + '%22%7D%20%2C%20%7B%22idProducto%22%3A%22' + this.productosxdetalle[i].idProducto + '%22%7D%5D%7D', nuevaCantidad)
+                 //          .then(function(res) {
+                 //              nuevaCantidad = {
+
+                 //                  "cantidad": "",
+
+                 //              }
+                 //          })
+                 //          .catch(function(error) {
+                 //              // handle error
+                 //              vueApp.mostrarAlerta("Error", error);
+                 //              console.log(error);
+                 //          });
+                 //  } else {
+                 detalle = {
+                     "idOrden": this.Ordenes[idorden].idOrden,
+                     "idProducto": this.productosxdetalle[i].idProducto,
+                     "cantidad": this.cantidadxtabla[i].cantidad,
+                     "precioUnitario": this.productosxdetalle[i].precio
+                 }
+                 axios.post('http://localhost:3000/api/DetalleOrdens', detalle)
+                     .then(function(res) {
+                         detalle = {
+                             "idOrden": "",
+                             "idProducto": "",
+                             "cantidad": "",
+                             "precioUnitario": ""
+                         }
+                     })
+                     .catch(function(error) {
+                         // handle error
+                         vueApp.mostrarAlerta("Error", error);
+                         console.log(error);
+                     });
+             }
+             //}
+             this.productosxdetalle = [];
+             this.cantidadxtabla = [];
 
          },
          //Agrega el nuevo producto enviandolo a la base de datos

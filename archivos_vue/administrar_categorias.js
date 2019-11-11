@@ -35,7 +35,7 @@
                  return true;
 
              var cad = this.categorias[x].nombreCategoria +
-                 this.categorias[x].idCatageoria;
+                 this.categorias[x].idCategoria;
              cad = cad.toUpperCase();
 
              if (cad.indexOf(this.textoBusqueda.toUpperCase()) >= 0)

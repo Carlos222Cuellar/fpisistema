@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="assets/css/Dark-NavBar-2.css">
 
 
+
     <link rel="stylesheet" href="assets1/css/scrollSpyModal.css">
 
 
@@ -80,7 +81,7 @@
 
             <div class="card-body table-responsive ">
                 <div class="row">
-                    <div class="col">
+                    <div class="col"><label>Buscar:  </label><input style="margin-left: 50px;" type="text" v-model="textoBusqueda">
                         <div class="alert alert-success collapse" role="alert" id="miAlerta">
                             <span><strong>{{ alerta.titulo }} :</strong>&nbsp;{{ alerta.mensaje }}.</span><i class="fa fa-close close" v-on:click="cerrarAlerta();"></i></div>
                     </div>
@@ -90,7 +91,7 @@
                         <input type="checkbox" class="custom-control-input" id="customSwitch1" value="true" v-model="estadoorden">
                         <label class="custom-control-label" for="customSwitch1">Ver solo Ordenes Activas</label>
                     </div>
-                    <input type="text" class="search form-control" placeholder="Buscar">
+
                 </div>
                 <span class="counter pull-right"></span>
                 <table class="table table-hover table-bordered results">
@@ -108,43 +109,171 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estadoorden==false && orden.estado=='C'">
+                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estadoorden==false && orden.estado=='C' && buscar(index)">
                             <td>{{orden.idOrden}}</td>
                             <td>{{orden.cliente}}</td>
                             <td>{{orden.mesa}}</td>
                             <td>{{orden.mesero}}</td>
                             <td>${{orden.total}}</td>
                             <td>
-                                <button class="btn btn-outline-success" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal2"><i class="fa fa-pencil"
-                                        style="font-size: 15px;"></i></button>
                                 <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button" v-on:click="mostrarEliminar(ordenSelected);"><i
                                         class="fa fa-trash" style="font-size: 15px;"></i></button>
                                 <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" v-on:click="mostrarModificar(ordenSelected);"><i class="fa fa-money"
                                         style="font-size: 15px;"></i></button>
-                                <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal3"><i class="fa fa-info"
+                                <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" v-on:click="mostrarDetalle(ordenSelected);"><i class="fa fa-info"
                                         style="font-size: 15px;"></i></button>
                             </td>
                         </tr>
-                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estadoorden==true && orden.estado=='A'">
+                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estadoorden==true && orden.estado=='A' && buscar(index)">
                             <td>{{orden.idOrden}}</td>
                             <td>{{orden.cliente}}</td>
                             <td>{{orden.mesa}}</td>
                             <td>{{orden.mesero}}</td>
                             <td>${{orden.total}}</td>
                             <td>
-                                <button class="btn btn-outline-success" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal2"><i class="fa fa-pencil"
+                                <button class="btn btn-outline-success" style="margin-left: 5px;" type="button" v-on:click="agregar(ordenSelected);"><i class="fa fa-pencil"
                                             style="font-size: 15px;"></i></button>
                                 <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button" v-on:click="mostrarEliminar();"><i
                                             class="fa fa-trash" style="font-size: 15px;"></i></button>
                                 <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" v-on:click="mostrarModificar(ordenSelected);"><i class="fa fa-money"
                                             style="font-size: 15px;"></i></button>
-                                <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal3"><i class="fa fa-info"
+                                <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" v-on:click="mostrarDetalle(ordenSelected);"><i class="fa fa-info"
                                             style="font-size: 15px;"></i></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <div></div>
+            </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="AgregarProducto">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                    <div class="modal-body">
+                        <nav class="navbar navbar-light navbar-expand-md" id="menuNuevaOrden">
+                            <div class="container-fluid"><button data-toggle="collapse" class="navbar-toggler" data-target="#navcol-2"><span class="sr-only">Toggle navigation</span><span
+                                    class="navbar-toggler-icon"></span></button>
+                                <div class="collapse navbar-collapse" id="navcol-2">
+                                    <ul class="nav navbar-nav">
+                                        <li class="nav-item" role="presentation"><a class="nav-link" href="#paso1">Paso
+                                            1</a></li>
+                                        <li class="nav-item" role="presentation"><a class="nav-link" href="#paso2">Paso
+                                            2</a></li>
+                                        <li class="nav-item" role="presentation"><a class="nav-link" href="#paso3">Paso
+                                            3</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </nav>
+                        <div class="container-fluid text-center">
+                            <div id="modalSpy" class="mt-4 text-center p-4" data-spy="scroll" data-target="menuNuevaOrden" data-offset="0">
+                                <form id="paso1">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Cliente:</span></div><input class="form-control" type="text" disabled v-model="Ordenes[ordenSelected].cliente">
+                                        <div class="input-group-append"></div>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Mesa:</span></div><input class="form-control" type="text" disabled v-model="Ordenes[ordenSelected].mesa">
+                                        <div class="input-group-append"></div>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Mesero:</span></div><input class="form-control" type="text" disabled v-model="Ordenes[ordenSelected].mesero">
+                                        <div class="input-group-append"></div>
+                                    </div>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Observacion:</span></div><input class="form-control" type="text" v-model="Ordenes[ordenSelected].observacion">
+                                        <div class="input-group-append"></div>
+                                    </div>
+                                </form>
+                                <div id="paso2" class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <ul class="nav nav-tabs">
+                                                <li class="nav-item" href="#" v-on:click.prevent="categoriaSelected=Cate.idCategoria;" v-for="Cate in categorias">
+                                                    <a class="nav-link" href="#" v-on:click="categoriaSelected=Cate.idCategoria;" v-bind:class="{ 'font-weight-bold': categoriaSelected==Cate.idCategoria,'text-dark': categoriaSelected==Cate.idCategoria }">{{ Cate.nombreCategoria }}</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-responsive mt-5">
+                                        <table class="table" id="tablaprodutos">
+                                            <caption></caption>
+                                            <thead>
+                                                <th>Producto</th>
+                                                <th>Cantidad</th>
+                                                <th>precio</th>
+                                                <th>agregar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="list-group-item-action" v-for="(elProd,index) in productos " v-show="elProd.idCategoria==categoriaSelected" v-on:click="productoSelected=index" v-bind:class="{'font-weight-bold':productoSelected==index}">
+                                                    <td id="tgf">{{ elProd.nombreProducto}}</td>
+                                                    <td id="texto" align="center"><input type="number" id="cantidad1" style="width:50px;height:15px" placeholder="1" min="1" max="20" v-model="cantidadtabla"></td>
+                                                    <td>$ {{ elProd.precio }}</td>
+                                                    <td><a href="#" v-on:click.prevent="capturardatos(productoSelected);" id="btn"><i class="fa fa-edit"></i></a></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="paso3">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <caption>Resumen</caption>
+                                            <thead>
+                                                <tr>
+                                                    <th>Cantidad</th>
+                                                    <th>Producto</th>
+                                                    <th>P/u</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(detalle,index) in productosxdetalle">
+                                                    <td>{{cantidadxtabla[index].cantidad}}</td>
+                                                    <td>{{detalle.nombreProducto}}</td>
+                                                    <td>${{detalle.precio}}</td>
+                                                    <td>${{cantidadxtabla[index].cantidad*detalle.precio}}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3"></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary" v-on:click="agregarproductos(ordenSelected);" data-dismiss="modal"> Agregar Productos</button>
+                                    <button type="button" class="btn btn-outline-primary" data-dismiss="modal"> Cancelar </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal fade" role="dialog" tabindex="-1" id="cobrar">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Cobrar Orden</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                        <div class="modal-body">
+                            <p>Total: $10</p>
+                            <div class="group">
+                                <input type="text" required>
+                                <span class="highlight"></span>
+                                <span class="bar"></span>
+                                <label>Efectivo</label>
+                            </div>
+
+
+                        </div>
+                        <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cerrar</button><button class="btn btn-primary" id="idBoton1" type="button" data-dismiss="modal">Guardar</button></div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -375,7 +504,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Detalle Orden Orden</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h5 class="modal-title">Cobrar Orden</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
                     <div class="modal-body">
                         <div class="container mt-3">
@@ -434,18 +563,68 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" role="dialog" tabindex="-1" id="modalEliminar">
+        <div class="modal fade" role="dialog" tabindex="-1" id="modaldetalle">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <div class="modal-header bg-danger text-white">
-                        <h4 class="modal-title">Eliminar orden {{ this.Ordenes[this.ordenSelected].idOrden&nbsp;}}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">×</span></button>
+                    <div class="modal-header">
+                        <h5 class="modal-title">Detalle Orden</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                     </div>
-                    <div class="modal-body"></div>
-                    <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cancelar</button><button class="btn btn-primary btn-danger" type="button" data-dismiss="modal" v-on:click="eliminarOrden();">Eliminar</button></div>
+                    <div class="modal-body">
+                        <div class="container mt-3">
+
+                            <h6>Resumen de Orden</h6>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Cliente:</span></div><input class="form-control" type="text" v-model="clientecobrar">
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Mesa:</span></div><input class="form-control" type="text" v-model="mesacobrar">
+                                <div class="input-group-append"></div>
+                            </div>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Mesero:</span></div><input class="form-control" type="text" v-model="meserocobrar">
+                                <div class="input-group-append"></div>
+                            </div>
+                            <table id="example" class="table table-striped  table-hover" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>Cantidad</th>
+                                        <th>Productos</th>
+                                        <th>p/u</th>
+                                        <th>sub-total</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="cobrar in detalleordencobrar">
+                                        <td>{{cobrar.cantidad}}</td>
+                                        <td>{{nombreProducto(cobrar.idProducto)}}</td>
+                                        <td>${{cobrar.precioUnitario}}</td>
+                                        <td>${{cobrar.cantidad*cobrar.precioUnitario}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Salir</button></div>
+                    </div>
+
                 </div>
             </div>
         </div>
+    </div>
+    <div class="modal fade" role="dialog" tabindex="-1" id="modalEliminar">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h4 class="modal-title">Eliminar orden {{ this.Ordenes[this.ordenSelected].idOrden&nbsp;}}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body"></div>
+                <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cancelar</button><button class="btn btn-primary btn-danger" type="button" data-dismiss="modal" v-on:click="eliminarOrden();">Eliminar</button></div>
+            </div>
+        </div>
+    </div>
     </div>
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
