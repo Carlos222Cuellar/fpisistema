@@ -117,7 +117,7 @@
                             <td>
                                 <button class="btn btn-outline-success" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal2"><i class="fa fa-pencil"
                                         style="font-size: 15px;"></i></button>
-                                <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button"><i
+                                <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button" v-on:click="mostrarEliminar(ordenSelected);"><i
                                         class="fa fa-trash" style="font-size: 15px;"></i></button>
                                 <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" v-on:click="mostrarModificar(ordenSelected);"><i class="fa fa-money"
                                         style="font-size: 15px;"></i></button>
@@ -134,7 +134,7 @@
                             <td>
                                 <button class="btn btn-outline-success" style="margin-left: 5px;" type="button" data-toggle="modal" data-target="#modal2"><i class="fa fa-pencil"
                                             style="font-size: 15px;"></i></button>
-                                <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button"><i
+                                <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button" v-on:click="mostrarEliminar();"><i
                                             class="fa fa-trash" style="font-size: 15px;"></i></button>
                                 <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" v-on:click="mostrarModificar(ordenSelected);"><i class="fa fa-money"
                                             style="font-size: 15px;"></i></button>
@@ -431,6 +431,18 @@
                         </div>
 
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalEliminar">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h4 class="modal-title">Eliminar orden {{ this.Ordenes[this.ordenSelected].idOrden&nbsp;}}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cancelar</button><button class="btn btn-primary btn-danger" type="button" data-dismiss="modal" v-on:click="eliminarOrden();">Eliminar</button></div>
                 </div>
             </div>
         </div>

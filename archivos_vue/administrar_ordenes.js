@@ -126,10 +126,17 @@
 
          },
 
+         mostrarEliminar: function(idorden) {
+             $('#modalEliminar').modal('show');
+
+         },
+
+
 
          cobrarorden: function() {
              $('#modalcobrarorden').modal('show');
          },
+
 
 
          mostrarModificar: function(idorden) {
@@ -241,6 +248,29 @@
 
          },
 
+         eliminarOrden: function() {
+             console.log();
+             if (this.Ordenes[this.ordenSelected].estado === "A") {
+                 axios.delete('http://localhost:3000/api/Ordens/' + this.Ordenes[this.ordenSelected].idOrden)
+                     .then(function(res) {
+                         console.log("DELETE ORDEN");
+                         vueApp.cargarDatos();
+                         vueApp.mostrarAlerta("Orden eliminada", "La orden  se eliminó de la base de datos con exito");
+
+                     })
+
+                 .catch(function(error) {
+                     // handle error
+                     vueApp.mostrarAlerta("Error:", error);
+
+                     console.log(error);
+                 });
+             } else {
+                 alert("solo se pueden eliminar ordenes inactivas");
+             }
+         },
+
+
          capturardatos: function(idprod) {
              //se captura el id de la tabla en la vista que corresponde al productos que se va agregar a la orden 
              //y luego se busca en el objeto productos el id que coincida
@@ -265,6 +295,7 @@
                  return prod.idProducto == idProd
              }).nombreProducto;
          },
+
 
 
      },
