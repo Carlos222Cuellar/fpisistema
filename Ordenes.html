@@ -87,7 +87,7 @@
                 </div>
                 <div class="form-group pull-right">
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="customSwitch1" v-bind:value="true" v-model="estado">
+                        <input type="checkbox" class="custom-control-input" id="customSwitch1" value="true" v-model="estadoorden">
                         <label class="custom-control-label" for="customSwitch1">Ver solo Ordenes Activas</label>
                     </div>
                     <input type="text" class="search form-control" placeholder="Buscar">
@@ -108,7 +108,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estado==false">
+                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estadoorden==false && orden.estado=='C'">
                             <td>{{orden.idOrden}}</td>
                             <td>{{orden.cliente}}</td>
                             <td>{{orden.mesa}}</td>
@@ -125,7 +125,7 @@
                                         style="font-size: 15px;"></i></button>
                             </td>
                         </tr>
-                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estado==true,orden.estado=='A'">
+                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estadoorden==true && orden.estado=='A'">
                             <td>{{orden.idOrden}}</td>
                             <td>{{orden.cliente}}</td>
                             <td>{{orden.mesa}}</td>

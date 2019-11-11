@@ -7,7 +7,7 @@
              mensaje: "Texto"
 
          },
-         estado: false,
+         estadoorden: true,
          mesacobrar: "",
          meserocobrar: "",
          clientecobrar: "",
@@ -83,6 +83,7 @@
 
          //consume la API con axios
          cargarDatos: function() {
+
              //Carga categorias
              axios.get('http://localhost:3000/api/Categoria')
                  .then(function(response) {
@@ -140,21 +141,24 @@
 
 
          mostrarModificar: function(idorden) {
-             $('#modal3').modal('show');
-             console.log(idorden);
-             this.mesacobrar = this.Ordenes[idorden].mesa;
-             this.meserocobrar = this.Ordenes[idorden].mesero;
-             this.clientecobrar = this.Ordenes[idorden].cliente;
-             this.totalcobrar = this.Ordenes[idorden].total;
+             if (this.Ordenes[this.ordenSelected].estado === "A") {
+                 $('#modal3').modal('show');
+                 console.log(idorden);
+                 this.mesacobrar = this.Ordenes[idorden].mesa;
+                 this.meserocobrar = this.Ordenes[idorden].mesero;
+                 this.clientecobrar = this.Ordenes[idorden].cliente;
+                 this.totalcobrar = this.Ordenes[idorden].total;
 
-             axios.get('http://localhost:3000/api/DetalleOrdens?filter=%7B%22where%22%3A%7B%22idOrden%22%3A%22' + this.Ordenes[idorden].idOrden + '%22%7D%7D')
-                 .then(function(response) {
+                 axios.get('http://localhost:3000/api/DetalleOrdens?filter=%7B%22where%22%3A%7B%22idOrden%22%3A%22' + this.Ordenes[idorden].idOrden + '%22%7D%7D')
+                     .then(function(response) {
 
-                     vueApp.detalleordencobrar = response.data;
+                         vueApp.detalleordencobrar = response.data;
 
 
-                 })
-
+                     })
+             } else {
+                 alert("La orden ya fue COBRADA")
+             }
 
 
 
@@ -170,6 +174,7 @@
          },
          cobrar: function(idorden) {
              //http: //localhost:3000/api/Ordens/update?where=%7B%22idOrden%22%3A1%7D
+
              console.log(idorden);
              axios.post('http://localhost:3000/api/Ordens/update?where=%7B%22idOrden%22%3A' + this.Ordenes[idorden].idOrden + '%7D', this.estado)
                  .then(function(response) {
@@ -181,6 +186,9 @@
 
                  });
              vueApp.mostrarAlerta("Orden cobrada", "\n" + "Total: " + this.totalcobrar + " \n" + "efectivo: " + this.efectivo + " \n" + "cambio: " + this.calcularcambio);
+             this.efectivo = 0;
+             this.calcularcambio = 0;
+
 
          },
 
@@ -230,7 +238,7 @@
                  axios.post('http://localhost:3000/api/DetalleOrdens', detalle)
                      .then(function(res) {
                          detalle = {
-                             "idorden": "",
+                             "idOrden": "",
                              "idProducto": "",
                              "cantidad": "",
                              "precioUnitario": ""
@@ -304,6 +312,7 @@
          this.cargarDatos();
          this.fechahoy();
          //this.capturardatos();
+
 
 
      },
