@@ -36,6 +36,7 @@
 
          },
          detalleordencobrar: [],
+         detalletraer: [],
          //se almacenan las categorias que estan en la base de datos 
          categorias: [],
          //se almacenan los productos que estan en la base de datos
@@ -147,7 +148,7 @@
 
          },
 
-         mostrarEliminar: function(idorden) {
+         mostrarEliminar: function() {
              $('#modalEliminar').modal('show');
 
          },
@@ -242,16 +243,11 @@
              $('#modaliniciarorden').modal('show');
 
          },
-         agregarproductos(idorden) {
-             //  for (var i = 0; i < this.cantidadxtabla.length; i++) {
-
-             //      this.Ordenes[idorden].total = this.Ordenes.total + (this.cantidadxtabla[i].cantidad * this.productosxdetalle[i].precio);
-
-             //  }
+         traer: function(idorden) {
              axios.get('http://localhost:3000/api/DetalleOrdens?filter=%7B%22where%22%3A%7B%22idOrden%22%3A%22' + this.Ordenes[idorden].idOrden + '%22%7D%7D')
                  .then(function(response) {
 
-                     vueApp.detalleordencobrar = response.data;
+                     vueApp.detalletraer = response.data;
 
 
                  })
@@ -261,11 +257,19 @@
                      console.log(error);
                  });
 
+         },
+         agregarproductos: function(idorden) {
+             //  for (var i = 0; i < this.cantidadxtabla.length; i++) {
+
+             //      this.Ordenes[idorden].total = this.Ordenes.total + (this.cantidadxtabla[i].cantidad * this.productosxdetalle[i].precio);
+
+             //  }
+
              for (var i = 0; i < this.productosxdetalle.length; i++) {
-                 for (var j = 0; j < this.detalleordencobrar.length; j++) {
-                     if (this.detalleordencobrar[j].idProducto == this.productosxdetalle[i].idProducto) {
+                 for (var j = 0; j < this.detalletraer.length; j++) {
+                     if (this.detalletraer[j].idProducto === this.productosxdetalle[i].idProducto) {
                          nuevaCantidad = {
-                             "cantidad": this.cantidadxtabla[i].cantidad + this.detalleordencobrar[j].cantidad
+                             "cantidad": parseInt(this.cantidadxtabla[i].cantidad) + parseInt(this.detalletraer[j].cantidad)
                          }
                          axios.post('http://localhost:3000/api/DetalleOrdens/update?where=%7B%22and%22%3A%5B%7B%22idOrden%22%3A%22' + this.Ordenes[idorden].idOrden + '%22%7D%20%2C%20%7B%22idProducto%22%3A%22' + this.productosxdetalle[i].idProducto + '%22%7D%5D%7D', nuevaCantidad)
                              .then(function(res) {

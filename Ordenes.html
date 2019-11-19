@@ -116,7 +116,7 @@
                             <td>{{orden.mesero}}</td>
                             <td>${{orden.total}}</td>
                             <td>
-                                <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button" v-on:click="mostrarEliminar(ordenSelected);"><i
+                                <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button" v-on:click="mostrarEliminar();"><i
                                         class="fa fa-trash" style="font-size: 15px;"></i></button>
                                 <button class="btn btn-outline-info" style="margin-left: 5px;" type="button" v-on:click="mostrarModificar(ordenSelected);"><i class="fa fa-money"
                                         style="font-size: 15px;"></i></button>
@@ -124,14 +124,14 @@
                                         style="font-size: 15px;"></i></button>
                             </td>
                         </tr>
-                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index;" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estadoorden==true && orden.estado=='A' && buscar(index)">
+                        <tr class="list-group-item-action" v-for="(orden,index) in Ordenes" v-on:click="ordenSelected=index; traer(ordenSelected);" v-bind:class="{ 'font-weight-bold' : ordenSelected==index }" v-show="estadoorden==true && orden.estado=='A' && buscar(index)">
                             <td>{{orden.idOrden}}</td>
                             <td>{{orden.cliente}}</td>
                             <td>{{orden.mesa}}</td>
                             <td>{{orden.mesero}}</td>
                             <td>${{orden.total}}</td>
                             <td>
-                                <button class="btn btn-outline-success" style="margin-left: 5px;" type="button" v-on:click="agregar(ordenSelected);"><i class="fa fa-pencil"
+                                <button class="btn btn-outline-success" style="margin-left: 5px;" type="button" v-on:click.prevent="agregar(ordenSelected);"><i class="fa fa-pencil"
                                             style="font-size: 15px;"></i></button>
                                 <button class="btn btn-outline-danger" style="margin-left: 5px;" type="button" v-on:click="mostrarEliminar();"><i
                                             class="fa fa-trash" style="font-size: 15px;"></i></button>
@@ -612,20 +612,20 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" role="dialog" tabindex="-1" id="modalEliminar">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h4 class="modal-title">Eliminar orden {{ this.Ordenes[this.ordenSelected].idOrden&nbsp;}}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">×</span></button>
+        <div class="modal fade" role="dialog" tabindex="-1" id="modalEliminar">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h4 class="modal-title">Eliminar orden {{ this.Ordenes[this.ordenSelected].idOrden}}</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">×</span></button>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cancelar</button><button class="btn btn-primary btn-danger" type="button" data-dismiss="modal" v-on:click="eliminarOrden();">Eliminar</button></div>
                 </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer"><button class="btn btn-light" type="button" data-dismiss="modal">Cancelar</button><button class="btn btn-primary btn-danger" type="button" data-dismiss="modal" v-on:click="eliminarOrden();">Eliminar</button></div>
             </div>
         </div>
     </div>
-    </div>
+
     <script src="assets/js/jquery.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>

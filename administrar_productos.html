@@ -142,7 +142,7 @@
                             <div class="input-group-prepend"><span style="width: 120px;" class="input-group-text">Categoría:</span></div>
 
                             <select v-model="nuevoProducto.idCategoria">
-    <option v-for="option in categorias" v-bind:value="option.id">
+    <option v-for="option in categorias" v-bind:value="option.idCategoria">
         {{option.nombreCategoria}}
     </option>
 </select>

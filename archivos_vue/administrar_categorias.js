@@ -124,7 +124,7 @@
          },
          eliminarCategoria: function() {
              console.log();
-             axios.delete('http://localhost:3000/api/Categoria/' + this.categorias[this.categoriaSelected].id)
+             axios.delete('http://localhost:3000/api/Categoria/' + this.categorias[this.categoriaSelected].idCategoria)
                  .then(function(res) {
                      console.log("DELETE CATEGORIA");
                      vuecatego.cargarDatos();

@@ -134,6 +134,7 @@
              axios.put('http://localhost:3000/api/Productos', this.productos[this.productoSelected])
                  .then(function(res) {
                      console.log("UPDATED Producto");
+                     vueprod.cargarDatos();
                      vueprod.mostrarAlerta("Producto Modificado", "Se modifico el producto satisfactoriamente");
 
                  })
@@ -146,7 +147,7 @@
          },
          eliminarProducto: function() {
              console.log();
-             axios.delete('http://localhost:3000/api/Productos/' + this.productos[this.productoSelected].id)
+             axios.delete('http://localhost:3000/api/Productos/' + this.productos[this.productoSelected].idProducto)
                  .then(function(res) {
                      console.log("DELETE Producto");
                      vueprod.cargarDatos();
